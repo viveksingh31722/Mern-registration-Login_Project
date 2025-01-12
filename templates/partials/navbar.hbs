@@ -1,0 +1,66 @@
+<nav class="navbar">
+  <div class="brand-name">Technical Learning</div>
+  <div class="nav-links">
+    <a href="/" class="home">Home</a>
+    <a href="/register" class="register">Registration</a>
+    <a href="/login" class="login">Login</a>
+  </div>
+</nav>
+
+<style>
+  /* Basic Navbar Styling */
+  .navbar {
+    display: flex;
+    justify-content: space-between;  /* Space between brand name and navigation links */
+    align-items: center;
+    background-color: #3b5998;
+    padding: 10px 40px;  /* Adjust padding for wider navbar */
+    position: fixed;  /* Fix navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;  /* Ensure it stays on top */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Brand Name Styling (Left-aligned) */
+  .brand-name {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
+    flex: 1;  /* Ensure it takes up available space on the left */
+  }
+
+  /* Navbar Links Container (Right-aligned) */
+  .nav-links {
+    display: flex;
+    justify-content: flex-end;  /* Align buttons to the right */
+    align-items: center;
+  }
+
+  /* Navbar Links Styling */
+  .navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    margin: 0 15px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  /* Active link style */
+  .navbar a.active {
+    color: #f0f2f5;
+    text-decoration: underline;
+  }
+
+  /* Hover effect */
+  .navbar a:hover {
+    color: #eceff5;
+  }
+
+  /* Adjust body padding to prevent overlap with the navbar */
+  body {
+    padding-top: 60px;  /* Adjust this based on navbar height */
+  }
+</style>

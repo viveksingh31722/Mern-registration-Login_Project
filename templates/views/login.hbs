@@ -1,0 +1,96 @@
+{{>navbar}}
+<div class="form-container">
+    <form class="login-form" action="/login" method="POST">
+      <h3>Login</h3>
+      <input type="email" placeholder="Email" required name="email">
+      <input type="password" placeholder="Password" required name="password">
+      <button type="submit" class="login-btn">Login</button>
+      <p class="register-link">Don't have an account? <a href="/register">Register here</a></p>
+    </form>
+</div>
+
+<style>
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .form-container {
+    max-width: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px 20px;
+    width: 100%;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .login-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .login-form input:focus {
+    border-color: #3b5998;
+    outline: none;
+  }
+
+  .login-btn {
+    background: #3b5998;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .login-btn:hover {
+    background: #2d4373;
+  }
+
+  .register-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .register-link a {
+    color: #3b5998;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+
