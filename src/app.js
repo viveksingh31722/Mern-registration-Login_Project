@@ -5,6 +5,9 @@ const path = require("path");
 const hbs = require("hbs");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser = require('cookie-parser');
+const auth = require("./middleware/auth");
+
 
 
 const { register } = require("module");
@@ -23,6 +26,7 @@ const partials_path = path.join(__dirname, "../templates/partials");
 
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
+app.use(cookieParser());
 
 //This is the middleware to run the static website.
 app.use(express.static(static_path));
@@ -37,6 +41,35 @@ hbs.registerPartials(partials_path);
 
 app.get("/", (req, res) =>{
   res.render("index");
+});
+
+app.get("/secret", auth , (req, res) =>{
+  // console.log(`This is cookie ${req.cookies.jwt}`);
+  res.render("secret");
+});
+
+app.get("/logout", auth, async(req, res) =>{
+  try {
+    console.log(req.user);
+
+    //This is the way we can delete the current token form tokens object and delete it from db to logout user.
+    // For single device logout.
+    // req.user.tokens = req.user.tokens.filter((currElement) =>{
+    //   return currElement.token !== req.token;
+    // })
+
+    //Logout from all devices.
+    req.user.tokens = [];
+
+    //This one is simply clearing the cookie to logout the user.
+    res.clearCookie("jwt");
+
+    console.log('Logout Successfully');
+    await req.user.save();
+    res.render("login");
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 app.get("/register", (req, res) =>{
@@ -76,11 +109,21 @@ app.post("/register", async (req, res) =>{
       //Adding middleware for generation Jwt token.
       const token = await registerEmployee.generateAuthToken();
 
+      //The res.cookie() function is used to set the cookie name to value.
+      //The value parameter is may be a string or object converted to json.
+      // The below code is for adding the jwt token value to the cookie
+
+      // res.cookie("jwt", token,{
+      //   expires: new Date(Date.now() + 3600000),
+      //   httpOnly:true
+      // });
+      // console.log(cookie);
+      
+
       //In between we are using a middleware to bcrypt the password before saving the data in database.
       // That middleware is present in register.js file, where schema has defined with the name of ("SchemaName.pre")
-
       const registered = await registerEmployee.save();
-      res.status(200).render("index");
+      res.status(200).render("login");
     }else{
       res.send("Passwords are not matching");
     }
@@ -104,8 +147,12 @@ app.post("/login", async (req, res) =>{
     //This is for generating jsonwebtoken.
     const token = await useremail.generateAuthToken();
     console.log('The token part' + token);
-    
 
+    res.cookie("jwt", token, {
+      expires: new Date(Date.now() + 60000),
+      httpOnly:true
+    });
+    
 
     if(isMatch){
 
